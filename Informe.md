@@ -29,44 +29,44 @@ Respecto al clustering, se reducen los feats de dimensionalidad 4096 a dimension
 
 ## 2. **Flume**
 
-Siguiendo las instrucciones fue sencillo de usar, aunque se debio usar una modificacion del enunciado original, el cual usaba el flag --conf que no permitia usar. Además, tuve que tener cuidado con mandar los archivos a HDFS y no a local.
+Fue sencillo de usar siguiendo las instrucciones, aunque se debio utilizar una modificacion del enunciado original, el cual usaba el flag --conf que no permitía usar. Además, se debió tener cuidado con mandar los archivos a HDFS y no a local.
 
-Respecto al la tranferencia de los archivos, podemos ver: 
+Respecto a la tranferencia de los archivos, se observa: 
 ![Imagen3](./Pregunta2/im2.png)
 
-Respecto a los archivos en HDFS, podemos ver: 
+Respecto a los archivos en HDFS, se observa: 
 ![Imagen4](./Pregunta2/im1.png)
 
 [Archivo de configuración de Flume](https://github.com/feliperuizp/tarea3_bigData/blob/master/Pregunta2/myConfigFileName.conf)
 
 ## 3. **Spark Streaming**
 
-Para poder realizar esta pregunta, se cambio el archivo de configuracion de flume. Además se necesito investigar respecto al manejo de streaming en spark (en las clases solo aparece manejos de RDD y no de DStream). Dentro de estos no logre ignorar los RDD de un DStream que fueran vacios, por lo cual genero mucha data persistida en hdfs que se encuentra vacia. Otro problema, fue comprender que spark se ejecuta sobre clusters, y para ejecutarlo en local se debe ejecutar un worker (y el master).
+Para poder realizar esta pregunta, se modificó el archivo de configuracion de flume. Además se necesitó investigar respecto al manejo de streaming en spark (en las clases se mencionan únicamente manejos de RDD y no de DStream). Dentro de estos no se logró ignorar los RDD de un DStream que fueran vacíos, por lo cual generó mucha data persistida en HDFS que se encuentra vacía. Otro problema, fue comprender que spark se ejecuta sobre clusters, y para ejecutarlo en local se debe ejecutar un worker (y el master).
 
 Comando para correr spark:
 
 ``` spark-submit --jars '/home/cloudera/Desktop/spark-streaming-flume-assembly_2.11-2.3.1.jar' --master local[2] sparkScript.py localhost 54321 ```
 
-Como comentario, se agrego el jar de streaming entre flume y spark para evitar problemas (use el jar de la documentación encontrada). El flag --master local[2] me permite ejecutar en local 2 threads, uno que escuche el streaming y el otro que corra el worker (vease documentacion cloudera [cloudera docs](https://www.cloudera.com/documentation/enterprise/5-5-x/topics/spark_streaming.html)).
+Como comentario, se agregó el jar de streaming entre flume y spark para evitar problemas (se usó el jar de la documentación encontrada). El flag --master local[2] permite ejecutar en local 2 threads, uno que escuche el streaming y el otro que corra el worker (véase documentacion cloudera [cloudera docs](https://www.cloudera.com/documentation/enterprise/5-5-x/topics/spark_streaming.html)).
 
-Al igual que el caso anterior, flume se corre con el mismo comando:
+Al igual que en el caso anterior, flume se corre con el mismo comando:
 
 ``` flume-ng agent --conf-file sparkStreamingFLUME.conf --name hw3Flume ```
  
- Respecto a los resultados, en la siguientes imagenes tenemos:
+ Respecto a los resultados, en las siguientes imágenes se observan:
  
  * FLume enviando los archivos a spark: 
  ![Imagen5](./Pregunta3/im1.png)
 
- * El resultado despues del filtrado de spark, recordar que archivos sin peso son archivos vacios: 
+ * El resultado después del filtrado de spark, recordar que archivos sin peso son archivos vacíos: 
  ![Imagen5](./Pregunta3/im2.png)
  
- * El contenido de un archivo que no esta vacio y que solo tiene los logs en los cuales aparece la palabra sales: 
+ * El contenido de un archivo que no está vacío y que solo tiene los logs en los cuales aparece la palabra "sales": 
  ![Imagen5](./Pregunta3/im3.png)
  
  Se uso código base de word count de flume con spark: [Código base](https://github.com/apache/spark/blob/master/examples/src/main/python/streaming/flume_wordcount.py)
  
- Respecto a la implementación, tenemos:
+ Respecto a la implementación, se observa:
  
  * Python script: 
  [Script](https://github.com/feliperuizp/tarea3_bigData/blob/master/Pregunta3/sparkScript.py)
@@ -74,9 +74,9 @@ Al igual que el caso anterior, flume se corre con el mismo comando:
  [Configuracion](https://github.com/feliperuizp/tarea3_bigData/blob/master/Pregunta3/sparkStreamingFLUME.conf)
  
  
-Se elimino el split de palabras del archivo de ejemplo, y se hace map con key igual a un identificador unico (UUID v4 {random}). En el filtrado, se filtró con el comando filter, y posterior a eso se hice el map y reduceByKey sobre las lineas filtradas(es equivalente a haber usado filter y reduce solo ) y sobre eso se guardan los rdd resultantes. Respecto a este resultado, cabe destacar que en el reduce se suman los strings sin agregar un salto de linea, lo cual queda reflejado en el screenshot del archivo guardado en hdfs.
+Se eliminó el split de palabras del archivo de ejemplo, y se hace map con key igual a un identificador unico (UUID v4 {random}). En el filtrado, se filtró con el comando filter, y posterior a eso se hizo el map y reduceByKey sobre las líneas filtradas (es equivalente a usar filter y reduce) y sobre eso se guardan los RDD resultantes. Respecto a este resultado, cabe destacar que en el reduce se suman los strings sin agregar un salto de línea, lo cual queda reflejado en el screenshot del archivo guardado en HDFS.
  
- Por ultimo, todo código esta linkeado al repositorio y adjuntado en conjunto con este informe
+ Por ultimo, todo código está linkeado al repositorio y adjuntado en conjunto con este informe.
  
 
  
