@@ -74,7 +74,7 @@ Al igual que el caso anterior, flume se corre con el mismo comando:
  [Configuracion](https://github.com/feliperuizp/tarea3_bigData/blob/master/Pregunta3/sparkStreamingFLUME.conf)
  
  
-Se elimino el split de palabras del archivo de ejemplo, y se hice map con key igual a un identificador unico (UUID v4 {random}). En el filtrado, se filtró con el comando filter, y posterior a eso se hice el map y reduceByKey sobre las lineas filtradas(es equivalente a haber usado filter y reduce solo ) y sobre eso se guardan los rdd resultantes. Respecto a este resultado, cabe destacar que en el reduce se suman los strings sin agregar un salto de linea, lo cual queda reflejado en el screenshot del archivo guardado en hdfs.
+Se elimino el split de palabras del archivo de ejemplo, y se hace map con key igual a un identificador unico (UUID v4 {random}). En el filtrado, se filtró con el comando filter, y posterior a eso se hice el map y reduceByKey sobre las lineas filtradas(es equivalente a haber usado filter y reduce solo ) y sobre eso se guardan los rdd resultantes. Respecto a este resultado, cabe destacar que en el reduce se suman los strings sin agregar un salto de linea, lo cual queda reflejado en el screenshot del archivo guardado en hdfs.
  
  Por ultimo, todo código esta linkeado al repositorio y adjuntado en conjunto con este informe
  
